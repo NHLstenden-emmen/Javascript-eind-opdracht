@@ -1,0 +1,21 @@
+#board {
+	width: 350px;
+}
+
+div .game {
+	height: 50px;
+	width: 50px;
+	float: left;
+}
+
+.red {
+	background-color: red;
+}
+
+.blue {
+	background-color: blue;
+}
+
+.black {
+	background-color: black;
+}

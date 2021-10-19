@@ -1,0 +1,26 @@
+{
+	"name": "Memory",
+	"description": {
+		"short": "Matches the images",
+		"long": "If the two cards have the same picture, then they keep the cards, otherwise they turn the cards face down again. The winner is the person with the most cards when all the cards have been taken"
+	},
+	"Rules": {
+		"1": "The objective is to collect the most pairs of cards.",
+		"2": "Shuffle the cards and lay them on the table, face down, in rows.",
+		"3": "The youngest player goes first. Play then continues in a clockwise direction.",
+		"4": "On each turn, a player turns over any two cards (one at a time) and keeps them if the cards match (for instance, two kings)",
+		"5": "If they successfully match a pair they get to keep the cards, and that player gets another turn.",
+		"6": "When a player turns over two cards that do not match, those cards are turned face down again (in the same position) and it becomes the next player’s turn.",
+		"7": "The trick is to remember which cards are where.",
+		"8": "The person with the most pairs at the end of the game wins."
+	},
+	"gameType": "score",
+	"gameSettings": {
+		"amoundOfCards": "5",
+		"howLongToVieuwCards": "2"
+	},
+	"players": {
+		"min": 2,
+		"max": 0
+	}
+}
