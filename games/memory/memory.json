@@ -4,6 +4,7 @@
 		"short": "Matches the images",
 		"long": "If the two cards have the same picture, then they keep the cards, otherwise they turn the cards face down again. The winner is the person with the most cards when all the cards have been taken"
 	},
+	"gameType": "score",
 	"Rules": {
 		"1": "The objective is to collect the most pairs of cards.",
 		"2": "Shuffle the cards and lay them on the table, face down, in rows.",
@@ -14,7 +15,6 @@
 		"7": "The trick is to remember which cards are where.",
 		"8": "The person with the most pairs at the end of the game wins."
 	},
-	"gameType": "score",
 	"gameSettings": {
 		"amoundOfCards": "5",
 		"howLongToVieuwCards": "2"
