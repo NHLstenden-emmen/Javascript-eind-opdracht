@@ -1,2 +1,5 @@
-.root {
+:root {
+	--primary: rgb(108, 41, 144);
+	--secondary: rgb(250, 210, 56);
+	--background: rgb(255, 255, 255);
 }
