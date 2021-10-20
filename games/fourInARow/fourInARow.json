@@ -1,0 +1,20 @@
+{
+	"name": "Four in a row",
+	"description": {
+		"short": "get four in a row",
+		"long": "It is the goal of the game to connect four of your tokens in a line. All directions (vertical, horizontal, diagonal) are allowed. Players take turns putting one of their tokens into one of the seven slots"
+	},
+	"Rules": {
+		"1": "Players must connect 4 of the same colored discs in a row to win.",
+		"2": "Only one piece is played at a time.",
+		"3": "Players can be on the offensive or defensive.",
+		"4": "The game ends when there is a 4-in-a-row or a stalemate.",
+		"5": "The starter of the previous game goes second on the next game."
+	},
+	"gameType": "Player",
+	"gameSettings": {},
+	"players": {
+		"min": 2,
+		"max": 2
+	}
+}

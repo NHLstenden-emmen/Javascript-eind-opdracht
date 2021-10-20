@@ -1,22 +1,12 @@
-const socket = io('ws://localhost:8080');
+import { gameInformation as lobbyNameDesc } from "./modules/lobby.js";
+var selectedGameInfo = lobbyNameDesc();
+console.log(selectedGameInfo);
+// for loop door de games folder om alle games op te halen.
 
-var lobby;
-
-$('#join').on('click', function() {
-    id = $('#id').val();
-    dName = $('#name').val();
-    socket.emit('joinLobby', id, dName);
-});
-
-$('#send').on('click', function() {
-    msg = $('#msg').val();
-    socket.emit('message', msg);
-});
-
-socket.on("message", msg => {
-    $('#msgs').append(`<p>${dName}: ${msg}</p>`);
-});
-
-socket.on("lobbyChange", lobby => {
-    $('#lobby').text(`Lobby: ${lobby}`);
-});
+// als een game is geselecteerd.
+// haal uit de api lijst alle games die bestaan
+import { startGame } from "../games/memory/memory.js";
+// import sheet from "../games/memory/memory.css";
+$("<link/>", { rel: "stylesheet", type: "text/css", href: "../games/memory/memory.css" }).appendTo("head");
+// als de player ready is kan die op start klikken
+startGame();
