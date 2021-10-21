@@ -8,23 +8,6 @@ const io = new Server (httpServer, {
 	cors: { origin: "*" },
 });
 
-var connected_users = [];
-
-class Lobby {
-	constructor(id) {
-		this.id = id;
-		this.players = [];
-	}
-}
-
-class Player {
-	constructor(id, tag) {
-		this.id = id;
-		this.tag = tag;
-		this.isReady = false;
-	}
-}
-
 io.on("connection", (socket) => {
 	console.log(`client with id ${socket.id} connected.`);
 
@@ -33,10 +16,16 @@ io.on("connection", (socket) => {
 		socket.join(lobbyID);
 		console.log(`User ${socket.name} with id ${socket.id} Joined ${lobbyID}`);
 		io.in(lobbyID).emit("lobbyChange", lobbyID);
-		io.in(lobbyID).emit("message", `${socket.name} joined!`);
+		io.in(lobbyID).emit("message", { 
+			username: `${username}`,
+			msg: " Joined!",
+		});
 
 		socket.on("message", msg => {
-			io.in(lobbyID).emit("message", msg, socket.name);
+			io.in(lobbyID).emit("message", {
+				username: `${username}`,
+				msg: msg
+			});
 		});
 	});
 
