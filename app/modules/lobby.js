@@ -1,3 +1,6 @@
+export function joinLobby() {}
+export function createLobby() {}
+
 export function gameInformation() {
 	var result = {};
 	$.getJSON("../games/memory/memory.json", function (data) {
@@ -14,7 +17,6 @@ export function gameInformation() {
 		}
 		result.Rules = rules;
 		// moet nog even naar gameSettings kijken
-		console.log(data.gameSettings.amoundOfCards);
 	}).fail(function () {
 		result.name = "name";
 		result.shortDesc = "short description";
