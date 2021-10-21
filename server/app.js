@@ -28,19 +28,20 @@ class Player {
 io.on("connection", (socket) => {
 	console.log(`client with id ${socket.id} connected.`);
 
-	socket.on("joinLobby", lobbyID => {
+	socket.on("joinLobby", ({lobbyID, username})  => {
+		socket.name = username;
 		socket.join(lobbyID);
-		console.log(`${socket.id} Joined ${lobbyID}`);
+		console.log(`User ${socket.name} with id ${socket.id} Joined ${lobbyID}`);
 		io.in(lobbyID).emit("lobbyChange", lobbyID);
-		io.in(lobbyID).emit("message", `${socket.id} joined!`);
+		io.in(lobbyID).emit("message", `${socket.name} joined!`);
 
 		socket.on("message", msg => {
-			io.in(lobbyID).emit("message", msg, dName);
+			io.in(lobbyID).emit("message", msg, socket.name);
 		});
 	});
 
 	socket.on("disconnect", () => {
-		console.log(`client with id ${socket.id} left.`);
+		console.log(`User ${socket.name} with id ${socket.id} left.`);
 	});
 
 });
