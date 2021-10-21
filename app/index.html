@@ -15,19 +15,28 @@
 	</head>
 	<body>
 		<div id="lobby">
-			<h2 id="lobby" class="text-center">Join lobby!</h2>
-			<div class="d-flex justify-content-center">
-				<input id="name" placeholder="Name" />
-				<input id="id" placeholder="Lobby ID" />
-				<button id="join">Join!</button>
-				<button id="create">Create new Lobby</button>
+			<div class="container-sm">
+				<h2 id="lobby" class="text-center">Join lobby!</h2>
+				<div class="input-group mb-3">
+					<input class="form-control" id="name" placeholder="Name">
+				</div>
+				<div class="input-group mb-3">
+					<span class="input-group-text">#</span>
+					<input class="form-control" id="id" placeholder="Lobby ID">
+				</div>
+				<div class="input-group mb-3">
+					<button class="form-control btn btn-primary" id="join" >Join!</button>
+				</div>
+					
+				</div>
+				<div class="container d-flex">
+					<input class="form-control" id="msg" placeholder="Message">
+					<button class="btn btn-primary" id="send">Send</button>
+				</div>
 			</div>
-			<div class="d-flex justify-content-center">
-				<input id="msg" placeholder="Message" />
-				<button id="send">Send</button>
-			</div>
-			<div id="users"></div>
-			<div id="msgs"></div>
+			<div class="container" id="users"></div>
+			<div class="container" id="msgs"></div>
+			
 		</div>
 	</body>
 	<!-- Jquery -->
