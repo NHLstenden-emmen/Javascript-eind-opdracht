@@ -1,12 +1,13 @@
 import { gameInformation as lobbyNameDesc } from "./modules/lobby.js";
-var selectedGameInfo = lobbyNameDesc();
-console.log(selectedGameInfo);
-// for loop door de games folder om alle games op te halen.
+import { selectActivePage } from "./modules/pages.js";
 
-// als een game is geselecteerd.
-// haal uit de api lijst alle games die bestaan
-import { startGame } from "../games/memory/memory.js";
-// import sheet from "../games/memory/memory.css";
-$("<link/>", { rel: "stylesheet", type: "text/css", href: "../games/memory/memory.css" }).appendTo("head");
-// als de player ready is kan die op start klikken
-startGame();
+$(window).on("hashchange", function (e) {
+	selectActivePage();
+});
+
+// var selectedGameInfo = lobbyNameDesc();
+// console.log(selectedGameInfo);
+
+// 	import { startGame } from "../games/memory/memory.js";
+// 	$("<link/>", { rel: "stylesheet", type: "text/css", href: "../games/memory/memory.css" }).appendTo("head");
+// 	startGame();
