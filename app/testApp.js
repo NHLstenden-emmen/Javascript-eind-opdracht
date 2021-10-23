@@ -2,6 +2,8 @@ const socket = io('ws://localhost:8080');
 
 var lobby;
 
+$('#msgs').hide();
+
 $('#join').on('click', () => {
     lobbyID = $('#id').val();
     username = $('#name').val();
@@ -21,7 +23,8 @@ socket.on("message", (data) => {
 socket.on("lobbyChange", lobby => {
     this.lobby = lobby;
     // Hide join lobby input fields
-    $('#joinLobbyContainer').html('');
+    $('#joinLobbyContainer').hide();
+    $('#msgs').show();
     $('#lobbyText').text(`Lobby: ${sanitizeString(this.lobby)}`);
 });
 
