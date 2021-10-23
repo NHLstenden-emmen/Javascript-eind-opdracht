@@ -2,35 +2,34 @@ const socket = io('ws://localhost:8080');
 
 var lobby;
 
-$('#join').on('click', function() {
+$('#join').on('click', () => {
     lobbyID = $('#id').val();
     username = $('#name').val();
     joinLobby(lobbyID, username);
 });
 
-$('#send').on('click', function() {
+$('#send').on('click', () => {
     msg = $('#msg').val();
     socket.emit('message', msg);
     $('#msg').val('');
 });
 
-socket.on("message", (data, a) => {
-    console.log(data);
-    console.log(a);
-    $('#msgs').prepend(`<p>${data.username}: ${data.msg}</p>`);
+socket.on("message", (data) => {
+    $('#msgs').prepend(`<p>${sanitizeString(data.username)}: ${sanitizeString(data.msg)}</p>`);
 });
 
 socket.on("lobbyChange", lobby => {
     this.lobby = lobby;
-    refreshLobbyHeader();
+    // Hide join lobby input fields
+    $('#joinLobbyContainer').html('');
+    $('#lobbyText').text(`Lobby: ${sanitizeString(this.lobby)}`);
 });
 
 function joinLobby(lobbyID, username) {
     socket.emit('joinLobby', {lobbyID, username});
-    // Hide join lobby input fields
-    $('#lobby').html('');
 }
 
-function refreshLobbyHeader() {
-    $('#lobbyText').text(`Lobby: ${lobby}`);
+const sanitizeString = (str) => {
+	str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim, "");
+	return str.trim();
 }
