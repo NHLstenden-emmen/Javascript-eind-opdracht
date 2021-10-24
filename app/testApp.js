@@ -2,7 +2,7 @@ const socket = io('ws://localhost:8080');
 
 var lobby;
 
-$('#msgs').hide();
+$('#lobbyPreGame').hide();
 
 $('#join').on('click', () => {
     lobbyID = $('#id').val();
@@ -16,15 +16,31 @@ $('#send').on('click', () => {
     $('#msg').val('');
 });
 
+$('#ready').on('click', () => {
+    socket.emit('toggleReady');
+});
+
 socket.on("message", (data) => {
     $('#msgs').prepend(`<p>${sanitizeString(data.username)}: ${sanitizeString(data.msg)}</p>`);
 });
+
+socket.on("playerList", (data) => {
+    console.log(data);
+    $('#playerList').html('<li class="list-group-item active">Players: </li>');
+    data.lobby.players.forEach(player => {
+        if (player.ready) {
+            $('#playerList').append(`<li class="list-group-item">${player.name}: Ready!</li>`);
+        } else {
+            $('#playerList').append(`<li class="list-group-item">${player.name}: Not ready</li>`);
+        }
+    });
+})
 
 socket.on("lobbyChange", lobby => {
     this.lobby = lobby;
     // Hide join lobby input fields
     $('#joinLobbyContainer').hide();
-    $('#msgs').show();
+    $('#lobbyPreGame').show();
     $('#lobbyText').text(`Lobby: ${sanitizeString(this.lobby)}`);
 });
 
