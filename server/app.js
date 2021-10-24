@@ -19,6 +19,10 @@ class Lobby {
 	removePlayer(id) {
 		this.players = this.players.filter(player => player.id !== id);
 	}
+
+	getPlayer(id) {
+		return this.players.find(player => player.id == id);
+	}
 }
 
 class Player {
@@ -27,6 +31,10 @@ class Player {
 		this.name = name;
 
 		this.ready = false;
+	}
+
+	toggleReady() {
+		this.ready = !this.ready;
 	}
 }
 
@@ -47,6 +55,7 @@ io.on("connection", socket => {
 			username: socket.name,
 			msg: " Joined!",
 		});
+		updateLobby(lobbyID, socket);
 
 		socket.on("message", msg => {
 			io.in(lobbyID).emit("message", {
@@ -54,14 +63,25 @@ io.on("connection", socket => {
 				msg: sanitizeString(msg)
 			});
 		});
+		socket.on("toggleReady", () => {
+			lobbies[socket.lobby].getPlayer(socket.id).toggleReady();
+			updateLobby(lobbyID, socket);
+		});
 	});
 
 	socket.on("disconnect", () => {
 		removePlayerFromLobby(socket.lobby, socket.id);
 		console.log(`User ${socket.name} with id ${socket.id} left.`);
+		updateLobby(socket.lobby, socket);
 	});
 
 });
+
+const updateLobby = (lobbyID, socket) => {
+	io.in(lobbyID).emit("playerList", {
+		lobby: lobbies[socket.lobby],
+	});
+}
 
 const sanitizeString = (str) => {
 	str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim, "");
