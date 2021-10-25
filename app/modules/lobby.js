@@ -1,3 +1,4 @@
+import { socket } from "../app.js";
 export function joinLobby() {}
 export function createLobby() {}
 
@@ -28,4 +29,50 @@ export function gameInformation() {
 		result.gameSettings = "gameSettings";
 	});
 	return result;
+}
+
+export function joinLobbyContainerFunctions() {
+	var lobby;
+
+	$("#join").on("click", () => {
+		var lobbyID = $("#id").val();
+		var username = $("#name").val();
+		joinLobby(lobbyID, username);
+	});
+
+	function joinLobby(lobbyID, username) {
+		socket.emit("joinLobby", { lobbyID, username });
+	}
+}
+
+export function lobbyPreGameFunctions() {
+	$("#send").on("click", () => {
+		var msg = $("#msg").val();
+		socket.emit("message", msg);
+		$("#msg").val("");
+	});
+
+	$("#ready").on("click", () => {
+		socket.emit("toggleReady");
+	});
+
+	socket.on("message", (data) => {
+		$("#msgs").prepend(`<p>${sanitizeString(data.username)}: ${sanitizeString(data.msg)}</p>`);
+	});
+
+	const sanitizeString = (str) => {
+		str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim, "");
+		return str.trim();
+	};
+
+	socket.on("playerList", (data) => {
+		$("#playerList").html('<li class="list-group-item active">Players: </li>');
+		data.lobby.players.forEach((player) => {
+			if (player.ready) {
+				$("#playerList").append(`<li class="list-group-item">${player.name}: Ready!</li>`);
+			} else {
+				$("#playerList").append(`<li class="list-group-item">${player.name}: Not ready</li>`);
+			}
+		});
+	});
 }

@@ -6,6 +6,8 @@ var showCardsTime = 2;
 var fipAnother = true;
 var lastCard;
 var lastCardMatch;
+export var score = 0;
+export var endGame = false;
 
 export function startGame() {
 	memoryBoard.innerHTML = ""; // clear images
@@ -99,8 +101,8 @@ export function hideAllCards(time) {
 		}
 	}, time);
 }
-
 export function flipcard(num) {
+	score++;
 	var thisCard = document.getElementById(num);
 	var newNum = num.substr(0, num.indexOf("-"));
 	if (!thisCard.classList.contains("flip")) {
@@ -157,6 +159,7 @@ export function MatchCard(num) {
 export function finishCheck() {
 	// Once all the cards are flipt finish the game
 	if (amoundOfCards <= 1) {
+		endGame = true;
 		// finished
 		var btn = document.createElement("BUTTON");
 		btn.innerHTML = "Restart the game";

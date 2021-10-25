@@ -1,13 +1,23 @@
 import { gameInformation as lobbyNameDesc } from "./modules/lobby.js";
-import { selectActivePage } from "./modules/pages.js";
+import * as pageContent from "./modules/pages.js";
+
+export const socket = io("ws://localhost:8080");
 
 $(window).on("hashchange", function (e) {
-	selectActivePage();
+	pageContent.selectActivePage();
 });
+pageContent.selectActivePage();
 
-// var selectedGameInfo = lobbyNameDesc();
-// console.log(selectedGameInfo);
+// import the important classes
+// import { startGame, score as memoryScore, endGame as memoryEndGame } from "../games/memory/memory.js";
+// // get the css of the game
+// $("<link/>", { rel: "stylesheet", type: "text/css", href: "../games/memory/memory.css" }).appendTo("head");
+// startGame();
 
-// 	import { startGame } from "../games/memory/memory.js";
-// 	$("<link/>", { rel: "stylesheet", type: "text/css", href: "../games/memory/memory.css" }).appendTo("head");
-// 	startGame();
+// // update the score in score games
+// setInterval(function () {
+// 	console.log(memoryScore);
+// 	if (memoryEndGame == true) {
+// 		console.log("stopthe game");
+// 	}
+// }, 2000);
