@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const express = require("express");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
@@ -38,6 +40,8 @@ class Player {
 	}
 }
 
+let games = [];
+
 const lobbies = {};
 
 io.on("connection", socket => {
@@ -63,6 +67,12 @@ io.on("connection", socket => {
 				msg: sanitizeString(msg)
 			});
 		});
+
+		socket.on("getGameList", () => {
+			io.in(lobbyID).emit("gameList", getGameNames()
+			)
+		});
+
 		socket.on("toggleReady", () => {
 			lobbies[socket.lobby].getPlayer(socket.id).toggleReady();
 			updateLobby(lobbyID, socket);
@@ -114,6 +124,14 @@ const removePlayerFromLobby = (lobbyID, playerID) => {
 		lobbies[lobbyID] = null;
 		return;
 	}
+}
+getGameNames();
+function getGameNames() {
+	fs.readdir("../games", (err, files) => {
+		files.forEach(file => {
+			this.games.push(file);
+		});
+	});
 }
 
 httpServer.listen(8080, () => console.log("listening on port 8080!"));
