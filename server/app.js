@@ -129,7 +129,7 @@ getGameNames();
 function getGameNames() {
 	fs.readdir("../games", (err, files) => {
 		files.forEach(file => {
-			this.games.push(file);
+			games.push(file);
 		});
 	});
 }
