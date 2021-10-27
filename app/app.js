@@ -1,4 +1,3 @@
-import { gameInformation as lobbyNameDesc } from "./modules/lobby.js";
 import * as pageContent from "./modules/pages.js";
 
 export const socket = io("ws://localhost:8080");

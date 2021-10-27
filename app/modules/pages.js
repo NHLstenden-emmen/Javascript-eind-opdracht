@@ -1,5 +1,5 @@
 import { socket } from "../app.js";
-import { joinLobbyContainerFunctions, lobbyPreGameFunctions } from "./lobby.js";
+import * as lobbyItems from "./lobby.js";
 const $pageContentCodeBlock = $("#main");
 
 export function selectActivePage() {
@@ -74,7 +74,7 @@ export function joinLobbyContainer() {
 	joinLobbyContainer.appendChild(containersm);
 	$pageContentCodeBlock[0].appendChild(joinLobbyContainer);
 
-	joinLobbyContainerFunctions();
+	lobbyItems.joinLobbyContainerFunctions();
 
 	socket.on("lobbyChange", (lobby) => {
 		lobbyPreGame();
@@ -115,40 +115,51 @@ export function lobbyPreGame() {
 	var messageList = document.createElement("div");
 	messageList.id = "msgs";
 	messageList.className = "container";
+	// row around textbox
+	var rowTextBox = document.createElement("div");
+	rowTextBox.className = "row";
 	// message input
 	var messageInput = document.createElement("input");
-	messageInput.className = "form-control";
+	messageInput.className = "form-control col-sm";
 	messageInput.id = "msg";
 	messageInput.placeholder = "Message";
 	// message button
 	var messageButton = document.createElement("button");
-	messageButton.className = "btn btn-primary";
+	messageButton.className = "btn btn-primary col-1";
 	messageButton.id = "send";
 	messageButton.textContent = "Send";
 	// append them to the row
-	messageList.appendChild(messageInput);
-	messageList.appendChild(messageButton);
+	rowTextBox.appendChild(messageInput);
+	rowTextBox.appendChild(messageButton);
+	messageList.appendChild(rowTextBox);
 	messageContainer.appendChild(messageList);
 	row.appendChild(messageContainer);
 
-	// ready button
-	var readyDiv = document.createElement("div");
-	readyDiv.className = "col";
+	// game list div
+	var gameListDiv = document.createElement("div");
+	gameListDiv.className = "col";
 	// ready button
 	var readyButton = document.createElement("button");
 	readyButton.className = "btn btn-primary";
 	readyButton.id = "ready";
 	readyButton.textContent = "Ready!";
+	// game list
+	var gameList = document.createElement("div");
+	gameList.className = "accordion";
+	gameList.id = "gameList";
 	// append them to the row
-	readyDiv.appendChild(readyButton);
-	row.appendChild(readyDiv);
+	gameListDiv.appendChild(readyButton);
+	gameListDiv.appendChild(gameList);
+	row.appendChild(gameListDiv);
 
 	lobbyPreGame.appendChild(row);
 	$pageContentCodeBlock[0].appendChild(lobbyPreGame);
 
-	lobbyPreGameFunctions();
+	lobbyItems.gameInformation();
+	lobbyItems.lobbyPreGameFunctions();
 }
 
+export function lobbyInGame() {}
 export function informationPage() {
 	clearHtml();
 	var h2 = document.createElement("h2");

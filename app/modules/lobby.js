@@ -3,6 +3,8 @@ export function joinLobby() {}
 export function createLobby() {}
 
 export function gameInformation() {
+	const $gameList = $("#gameList");
+	// loop trough games
 	var result = {};
 	$.getJSON("../games/memory/memory.json", function (data) {
 		result.name = data.name;
@@ -28,7 +30,34 @@ export function gameInformation() {
 		result.Rules = "Rules";
 		result.gameSettings = "gameSettings";
 	});
-	return result;
+
+	console.log(result);
+	console.log(result.name);
+
+	var karel = seroundingDivAccordion(result.name, result.shortDesc);
+	$gameList[0].appendChild(karel);
+}
+
+function seroundingDivAccordion(title, desc) {
+	console.log(title);
+	var h2 = document.createElement("h2");
+	h2.id = "lobbyText";
+	h2.className = "text-center";
+	h2.textContent = title;
+	// js hier van maken
+	// <div class="accordion-item">
+	// 	<h2 class="accordion-header" id="headingOne">
+	// 		<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+	// 		Accordion Item #1
+	// 		</button>
+	// 	</h2>
+	// 	<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+	// 		<div class="accordion-body">
+	// 		<strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+	// 		</div>
+	// 	</div>
+	// </div>
+	return h2;
 }
 
 export function joinLobbyContainerFunctions() {
