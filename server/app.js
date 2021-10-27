@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require("fs");
 
 const express = require("express");
 const { createServer } = require("http");
@@ -6,7 +6,7 @@ const { Server } = require("socket.io");
 
 const app = express();
 const httpServer = createServer(app);
-const io = new Server (httpServer, {
+const io = new Server(httpServer, {
 	cors: { origin: "*" },
 });
 
@@ -19,11 +19,11 @@ class Lobby {
 	}
 
 	removePlayer(id) {
-		this.players = this.players.filter(player => player.id !== id);
+		this.players = this.players.filter((player) => player.id !== id);
 	}
 
 	getPlayer(id) {
-		return this.players.find(player => player.id == id);
+		return this.players.find((player) => player.id == id);
 	}
 }
 
@@ -44,33 +44,32 @@ let games = [];
 
 const lobbies = {};
 
-io.on("connection", socket => {
+io.on("connection", (socket) => {
 	console.log(`client with id ${socket.id} connected.`);
 
-	socket.on("joinLobby", ({lobbyID, username})  => {
+	socket.on("joinLobby", ({ lobbyID, username }) => {
 		addLobby(lobbyID);
-		addPlayerToLobby(lobbyID, socket.id, username)
+		addPlayerToLobby(lobbyID, socket.id, username);
 		socket.name = sanitizeString(username);
 		socket.lobby = lobbyID;
 		socket.join(lobbyID);
 		console.log(`User ${socket.name} with id ${socket.id} Joined ${lobbyID}`);
 		io.in(lobbyID).emit("lobbyChange", lobbyID);
-		io.in(lobbyID).emit("message", { 
+		io.in(lobbyID).emit("message", {
 			username: socket.name,
 			msg: " Joined!",
 		});
 		updateLobby(lobbyID, socket);
 
-		socket.on("message", msg => {
+		socket.on("message", (msg) => {
 			io.in(lobbyID).emit("message", {
 				username: socket.name,
-				msg: sanitizeString(msg)
+				msg: sanitizeString(msg),
 			});
 		});
 
 		socket.on("getGameList", () => {
-			io.in(lobbyID).emit("gameList", getGameNames()
-			)
+			io.in(lobbyID).emit("gameList", getGameNames());
 		});
 
 		socket.on("toggleReady", () => {
@@ -84,39 +83,44 @@ io.on("connection", socket => {
 		console.log(`User ${socket.name} with id ${socket.id} left.`);
 		updateLobby(socket.lobby, socket);
 	});
-
 });
 
 const updateLobby = (lobbyID, socket) => {
 	io.in(lobbyID).emit("playerList", {
 		lobby: lobbies[socket.lobby],
 	});
-}
+};
 
 const sanitizeString = (str) => {
 	str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim, "");
 	return str.trim();
-}
+};
 
 const addLobby = (lobbyID) => {
 	const lobby = lobbies[lobbyID];
-	if (lobby) { return; }
+	if (lobby) {
+		return;
+	}
 
 	lobbies[lobbyID] = new Lobby(lobbyID);
-}
+};
 
 const addPlayerToLobby = (lobbyID, playerID, name) => {
 	const lobby = lobbies[lobbyID];
-	if (!lobby) { return; }
+	if (!lobby) {
+		return;
+	}
 
 	lobby.players.push(new Player(playerID, name));
 	lobbies[lobbyID] = lobby;
 	console.log(lobbies);
-}
+};
 
 const removePlayerFromLobby = (lobbyID, playerID) => {
 	const lobby = lobbies[lobbyID];
-	if (!lobby) { return; }
+	if (!lobby) {
+		return;
+	}
 
 	lobbies[lobbyID].removePlayer(playerID);
 
@@ -124,12 +128,12 @@ const removePlayerFromLobby = (lobbyID, playerID) => {
 		lobbies[lobbyID] = null;
 		return;
 	}
-}
+};
 getGameNames();
 function getGameNames() {
 	fs.readdir("../games", (err, files) => {
-		files.forEach(file => {
-			this.games.push(file);
+		files.forEach((file) => {
+			games.push(file);
 		});
 	});
 }

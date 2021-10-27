@@ -20,9 +20,8 @@ export function lobbyCheck() {
 	// als die al gejoined is joint hij dat weer anders naar
 	joinLobbyContainer();
 }
-export function joinLobbyContainer() {
-	clearHtml();
-	// creat the h2 on top
+
+export function joinLobbyContainerHTML() {
 	var h2 = document.createElement("h2");
 	h2.id = "lobbyText";
 	h2.className = "text-center";
@@ -73,7 +72,11 @@ export function joinLobbyContainer() {
 	containersm.appendChild(inputgroupLobbyButton);
 	joinLobbyContainer.appendChild(containersm);
 	$pageContentCodeBlock[0].appendChild(joinLobbyContainer);
-
+}
+export function joinLobbyContainer() {
+	clearHtml();
+	// creat the h2 on top
+	joinLobbyContainerHTML();
 	lobbyItems.joinLobbyContainerFunctions();
 
 	socket.on("lobbyChange", (lobby) => {
