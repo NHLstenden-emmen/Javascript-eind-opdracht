@@ -5,43 +5,43 @@ function clearHtml() {
 }
 export function joinLobbyContainerHTML() {
 	clearHtml();
-	var h2 = document.createElement("h2");
+	let h2 = document.createElement("h2");
 	h2.id = "lobbyText";
 	h2.className = "text-center";
 	h2.textContent = "Join lobby!";
 	$pageContentCodeBlock[0].appendChild(h2);
 	// joinLobbyContainer div
-	var joinLobbyContainer = document.createElement("div");
+	let joinLobbyContainer = document.createElement("div");
 	joinLobbyContainer.id = "joinLobbyContainer";
 	// container-sm div
-	var containersm = document.createElement("div");
+	let containersm = document.createElement("div");
 	containersm.className = "container-sm";
 	// create input container name
-	var inputgroupName = document.createElement("div");
+	let inputgroupName = document.createElement("div");
 	inputgroupName.className = "input-group mb-3";
 	// create input name
-	var inputName = document.createElement("input");
+	let inputName = document.createElement("input");
 	inputName.className = "form-control";
 	inputName.id = "name";
 	inputName.placeholder = "name";
 	// create input container name
-	var inputgroupLobbyId = document.createElement("div");
+	let inputgroupLobbyId = document.createElement("div");
 	inputgroupLobbyId.className = "input-group mb-3";
 	// create input name
-	var inputLobbyId = document.createElement("input");
+	let inputLobbyId = document.createElement("input");
 	inputLobbyId.className = "form-control";
 	inputLobbyId.id = "id";
 	inputLobbyId.type = "number";
 	inputLobbyId.placeholder = "Lobby ID";
 	// spanbefore lobby id
-	var inputgroupLobbyIdSpan = document.createElement("span");
+	let inputgroupLobbyIdSpan = document.createElement("span");
 	inputgroupLobbyIdSpan.className = "input-group-text";
 	inputgroupLobbyIdSpan.textContent = "#";
 	// create input container join
-	var inputgroupLobbyButton = document.createElement("div");
+	let inputgroupLobbyButton = document.createElement("div");
 	inputgroupLobbyButton.className = "input-group mb-3";
 	// create button join
-	var joinButton = document.createElement("button");
+	let joinButton = document.createElement("button");
 	joinButton.className = "form-control btn btn-primary";
 	joinButton.id = "join";
 	joinButton.textContent = "Join!";
@@ -59,23 +59,23 @@ export function joinLobbyContainerHTML() {
 export function lobbyPreGameHTML() {
 	clearHtml();
 	// surrounding div around lobbyPreGame
-	var lobbyPreGame = document.createElement("div");
+	let lobbyPreGame = document.createElement("div");
 	lobbyPreGame.id = "lobbyPreGame";
 	lobbyPreGame.className = "containter";
 	// surrounding div for row
-	var row = document.createElement("div");
+	let row = document.createElement("div");
 	row.className = "row";
 
 	// playerList Container
-	var playerListContainer = document.createElement("div");
+	let playerListContainer = document.createElement("div");
 	playerListContainer.id = "playerListContainer";
 	playerListContainer.className = "col";
 	// playerList ul
-	var playerList = document.createElement("ul");
+	let playerList = document.createElement("ul");
 	playerList.id = "playerList";
 	playerList.className = "list-group";
 	// list-group-item active li
-	var playerListItem = document.createElement("li");
+	let playerListItem = document.createElement("li");
 	playerListItem.textContent = "Players: ";
 	playerListItem.className = "list-group-item active";
 	//append them to the row
@@ -84,22 +84,22 @@ export function lobbyPreGameHTML() {
 	row.appendChild(playerListContainer);
 
 	// message Container
-	var messageContainer = document.createElement("div");
+	let messageContainer = document.createElement("div");
 	messageContainer.className = "col-6";
 	// message div
-	var messageList = document.createElement("div");
+	let messageList = document.createElement("div");
 	messageList.id = "msgs";
 	messageList.className = "container";
 	// row around textbox
-	var rowTextBox = document.createElement("div");
+	let rowTextBox = document.createElement("div");
 	rowTextBox.className = "row";
 	// message input
-	var messageInput = document.createElement("input");
+	let messageInput = document.createElement("input");
 	messageInput.className = "form-control col-sm";
 	messageInput.id = "msg";
 	messageInput.placeholder = "Message";
 	// message button
-	var messageButton = document.createElement("button");
+	let messageButton = document.createElement("button");
 	messageButton.className = "btn btn-primary col-1";
 	messageButton.id = "send";
 	messageButton.textContent = "Send";
@@ -111,15 +111,15 @@ export function lobbyPreGameHTML() {
 	row.appendChild(messageContainer);
 
 	// game list div
-	var gameListDiv = document.createElement("div");
+	let gameListDiv = document.createElement("div");
 	gameListDiv.className = "col";
 	// ready button
-	var readyButton = document.createElement("button");
+	let readyButton = document.createElement("button");
 	readyButton.className = "btn btn-primary";
 	readyButton.id = "ready";
 	readyButton.textContent = "Ready!";
 	// game list
-	var gameList = document.createElement("div");
+	let gameList = document.createElement("div");
 	gameList.className = "accordion";
 	gameList.id = "gameList";
 	// append them to the row
@@ -132,7 +132,7 @@ export function lobbyPreGameHTML() {
 }
 export function informationPageHTML() {
 	clearHtml();
-	var h2 = document.createElement("h2");
+	let h2 = document.createElement("h2");
 	h2.id = "lobbyText";
 	h2.className = "text-center";
 	h2.textContent = "informationPage";
@@ -140,7 +140,7 @@ export function informationPageHTML() {
 }
 export function homePageHTML() {
 	clearHtml();
-	var h2 = document.createElement("h2");
+	let h2 = document.createElement("h2");
 	h2.id = "lobbyText";
 	h2.className = "text-center";
 	h2.textContent = "HOME PAGE";
@@ -149,8 +149,7 @@ export function homePageHTML() {
 
 export function seroundingDivAccordion(title, desc) {
 	const $gameList = $("#gameList");
-	console.log(title);
-	var h2 = document.createElement("h2");
+	let h2 = document.createElement("h2");
 	h2.id = "lobbyText";
 	h2.className = "text-center";
 	h2.textContent = title;
@@ -168,5 +167,5 @@ export function seroundingDivAccordion(title, desc) {
 	// 	</div>
 	// </div>
 
-	$gameList[0].appendChild(h2);
+	// $gameList[0].appendChild(h2);
 }
