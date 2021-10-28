@@ -1,4 +1,5 @@
 import { socket } from "../app.js";
+import { lobbyInGame } from "./pages.js";
 import * as pagesHTML from "./pagesHTML.js";
 export function joinLobby() {}
 export function createLobby() {}
@@ -61,7 +62,6 @@ export function lobbyPreGameFunctions() {
 		socket.emit("toggleReady");
 	});
 
-	console.log("CALL DIT!");
 	socket.on("message", (data) => {
 		console.log("Msg recieved: " + data);
 		$("#msgs").prepend(`<p>${sanitizeString(data.username)}: ${sanitizeString(data.msg)}</p>`);
@@ -82,4 +82,7 @@ export function lobbyPreGameFunctions() {
 			}
 		});
 	});
+	socket.on("startGame"), (selectedGame) => {
+		lobbyInGame(selectedGame);
+	}
 }
