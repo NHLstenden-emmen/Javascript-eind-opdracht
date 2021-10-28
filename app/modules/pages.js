@@ -64,6 +64,7 @@ export async function lobbyInGame(gameNameForImport, gameNameForCSS) {
 		console.log(score);
 		if (endGame == true) {
 			console.log("stopthe game");
+			lobbyPreGame();
 		}
 	}, 2000);
 }
