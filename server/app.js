@@ -68,6 +68,9 @@ const lobbies = {};
 io.on("connection", (socket) => {
 	console.log(`client with id ${socket.id} connected.`);
 
+	// Verstuur lijst met games.
+	io.to(socket.id).emit("gameList", games);
+
 	socket.on("joinLobby", ({lobbyID, username}) => {
 		lobbyID = sanitizeString(lobbyID);
 		username = sanitizeString(username);
@@ -100,12 +103,6 @@ io.on("connection", (socket) => {
 				username: username,
 				msg: sanitizeString(msg),
 			});
-		});
-
-		// Verstuur de lijst met games wanneer een client dit opvraagt.
-		// Todo: verstuur dit on join, en sla dit op als var in de client.
-		socket.on("getGameList", () => {
-			io.in(lobbyID).emit("gameList", games);
 		});
 
 		// Ready / unready de player, verstuur dit naar players in de lobby.

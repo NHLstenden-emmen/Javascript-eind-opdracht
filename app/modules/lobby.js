@@ -5,6 +5,8 @@ export function joinLobby() {}
 export function createLobby() {}
 
 export function gameInformation() {
+	let gameList = {}
+
 	// loop trough games
 	let result = {};
 	$.getJSON("../games/memory/memory.json", function (data) {
@@ -22,19 +24,27 @@ export function gameInformation() {
 		result.Rules = rules;
 		// moet nog even naar gameSettings kijken
 	})
-		.done(function (data) {
-			pagesHTML.seroundingDivAccordion(result.name, result.shortDesc);
-		})
-		.fail(function () {
-			result.name = "name";
-			result.shortDesc = "short description";
-			result.longDesc = "long description";
-			result.gameType = "game type";
-			result.minPlayers = "min players";
-			result.maxPlayers = "max players";
-			result.Rules = "Rules";
-			result.gameSettings = "gameSettings";
-		});
+	.done(function (data) {
+		pagesHTML.seroundingDivAccordion(result.name, result.shortDesc);
+	})
+	.fail(function () {
+		result.name = "name";
+		result.shortDesc = "short description";
+		result.longDesc = "long description";
+		result.gameType = "game type";
+		result.minPlayers = "min players";
+		result.maxPlayers = "max players";
+		result.Rules = "Rules";
+		result.gameSettings = "gameSettings";
+	});
+
+	socket.on("gameList"), (games) => {
+		gameList = games;
+	}
+	if (!gameList) {
+		// Game list is leeg...
+	}
+	
 }
 
 export function joinLobbyContainerFunctions() {
