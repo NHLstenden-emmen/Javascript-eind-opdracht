@@ -42,13 +42,7 @@ export function lobbyPreGame() {
 	lobbyItems.lobbyPreGameFunctions();
 }
 
-export function lobbyInGame() {
-	let gameName;
-	socket.on("startGame", (data) => {
-		console.log(data);
-		// gameName moet dan de naam krijgen van de game die word ge emit
-		gameName = data;
-	});
+export function lobbyInGame(gameName) {
 	// inplaats van memory moet het woord memeory met gameName worden vervangen
 	import { startGame, score, endGame } from "../games/memory/memory.js";
 	// get the css of the game
