@@ -131,6 +131,69 @@ export function lobbyPreGameHTML() {
 	lobbyPreGame.appendChild(row);
 	$pageContentCodeBlock[0].appendChild(lobbyPreGame);
 }
+export function lobbyInGameHTML() {
+	clearHtml();
+	// surrounding div around lobbyPreGame
+	let lobbyPreGame = document.createElement("div");
+	lobbyPreGame.id = "lobbyPreGame";
+	lobbyPreGame.className = "containter";
+	// surrounding div for row
+	let row = document.createElement("div");
+	row.className = "row";
+
+	// playerList Container
+	let playerListContainer = document.createElement("div");
+	playerListContainer.id = "playerListContainer";
+	playerListContainer.className = "col";
+	// playerList ul
+	let playerList = document.createElement("ul");
+	playerList.id = "playerList";
+	playerList.className = "list-group";
+	// list-group-item active li
+	let playerListItem = document.createElement("li");
+	playerListItem.textContent = "Players: ";
+	playerListItem.className = "list-group-item active";
+	//append them to the row
+	playerList.appendChild(playerListItem);
+	playerListContainer.appendChild(playerList);
+	row.appendChild(playerListContainer);
+
+	// message Container
+	let gameLocation = document.createElement("div");
+	gameLocation.className = "col-6";
+	gameLocation.id = "game";
+	row.appendChild(gameLocation);
+
+	// message box
+	let messageList = document.createElement("div");
+	messageList.className = "col";
+	// message chat
+	let messages = document.createElement("div");
+	messages.id = "msgs";
+	messages.className = "container";
+	// row around textbox
+	let messageBox = document.createElement("div");
+	messageBox.className = "row";
+	// message input
+	let messageInput = document.createElement("input");
+	messageInput.className = "form-control col-sm";
+	messageInput.id = "msg";
+	messageInput.placeholder = "Message";
+	// message button
+	let messageButton = document.createElement("button");
+	messageButton.className = "btn btn-primary col-2";
+	messageButton.id = "send";
+	messageButton.textContent = "Send";
+	// append them to the row
+	messageBox.appendChild(messageInput);
+	messageBox.appendChild(messageButton);
+	messageList.appendChild(messages);
+	messageList.appendChild(messageBox);
+	row.appendChild(messageList);
+
+	lobbyPreGame.appendChild(row);
+	$pageContentCodeBlock[0].appendChild(lobbyPreGame);
+}
 export function informationPageHTML() {
 	clearHtml();
 	let h2 = document.createElement("h2");
@@ -138,13 +201,6 @@ export function informationPageHTML() {
 	h2.className = "text-center";
 	h2.textContent = "informationPage";
 	$pageContentCodeBlock[0].appendChild(h2);
-}
-export function lobbyInGameHTML() {
-	clearHtml();
-	let gameBlock = document.createElement("div");
-	gameBlock.id = "game";
-	gameBlock.className = "game";
-	$pageContentCodeBlock[0].appendChild(gameBlock);
 }
 export function homePageHTML() {
 	clearHtml();
