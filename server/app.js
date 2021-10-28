@@ -126,7 +126,9 @@ io.on("connection", (socket) => {
 			console.log(`User ${username} with id ${socket.id} left.`);
 			lobby.removePlayer(player)
 			updateLobby(lobbyID);
-			// TODO: wanneer lobby leeg is, remove from mem.
+			if (lobby.players.length === 0) {
+				delete lobbies[lobbyID];
+			}
 		});
 	});
 
