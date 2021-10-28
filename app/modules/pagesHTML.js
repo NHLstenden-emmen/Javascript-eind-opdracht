@@ -149,7 +149,6 @@ export function homePageHTML() {
 
 export function seroundingDivAccordion(title, desc) {
 	const $gameList = $("#gameList");
-	console.log(title);
 	let h2 = document.createElement("h2");
 	h2.id = "lobbyText";
 	h2.className = "text-center";
@@ -168,5 +167,5 @@ export function seroundingDivAccordion(title, desc) {
 	// 	</div>
 	// </div>
 
-	$gameList[0].appendChild(h2);
+	// $gameList[0].appendChild(h2);
 }

@@ -6,7 +6,7 @@ export function createLobby() {}
 
 export function gameInformation() {
 	// loop trough games
-	var result = {};
+	let result = {};
 	$.getJSON("../games/memory/memory.json", function (data) {
 		result.name = data.name;
 		result.shortDesc = data.description.short;
@@ -15,33 +15,32 @@ export function gameInformation() {
 		result.minPlayers = data.players.min;
 		result.maxPlayers = data.players.max;
 		// loops trough all the rules
-		var rules = {};
+		let rules = {};
 		for (let x in data.Rules) {
 			rules[x] = data.Rules[x];
 		}
 		result.Rules = rules;
 		// moet nog even naar gameSettings kijken
-	}).fail(function () {
-		result.name = "name";
-		result.shortDesc = "short description";
-		result.longDesc = "long description";
-		result.gameType = "game type";
-		result.minPlayers = "min players";
-		result.maxPlayers = "max players";
-		result.Rules = "Rules";
-		result.gameSettings = "gameSettings";
-	});
-
-	console.log(result);
-	console.log(result.name);
-
-	pagesHTML.seroundingDivAccordion(result.name, result.shortDesc);
+	})
+		.done(function (data) {
+			pagesHTML.seroundingDivAccordion(result.name, result.shortDesc);
+		})
+		.fail(function () {
+			result.name = "name";
+			result.shortDesc = "short description";
+			result.longDesc = "long description";
+			result.gameType = "game type";
+			result.minPlayers = "min players";
+			result.maxPlayers = "max players";
+			result.Rules = "Rules";
+			result.gameSettings = "gameSettings";
+		});
 }
 
 export function joinLobbyContainerFunctions() {
 	$("#join").on("click", () => {
-		var lobbyID = $("#id").val();
-		var username = $("#name").val();
+		let lobbyID = $("#id").val();
+		let username = $("#name").val();
 		joinLobby(lobbyID, username);
 	});
 
@@ -52,8 +51,7 @@ export function joinLobbyContainerFunctions() {
 
 export function lobbyPreGameFunctions() {
 	$("#send").on("click", () => {
-		console.log(socket.listenersAny());
-		var msg = $("#msg").val();
+		let msg = $("#msg").val();
 		socket.emit("message", msg);
 		$("#msg").val("");
 	});
@@ -63,7 +61,6 @@ export function lobbyPreGameFunctions() {
 	});
 
 	socket.on("message", (data) => {
-		console.log("Msg recieved: " + data);
 		$("#msgs").prepend(`<p>${sanitizeString(data.username)}: ${sanitizeString(data.msg)}</p>`);
 	});
 
