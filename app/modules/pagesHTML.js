@@ -196,11 +196,56 @@ export function lobbyInGameHTML() {
 }
 export function informationPageHTML() {
 	clearHtml();
-	let h2 = document.createElement("h2");
-	h2.id = "lobbyText";
-	h2.className = "text-center";
-	h2.textContent = "informationPage";
-	$pageContentCodeBlock[0].appendChild(h2);
+	let pageDesign = `<div class="Rules col-lg-8 mx-auto p-3 py-md-5">
+			<main>
+				<h1>Gamen met Gerjan</h1>
+				<p class="fs-5 col-md-8">This is a gaming platform where you can play games with Gerjan or with other friends. You can also create your own game and add it to the platform.</p>
+				<hr class="col-3 col-md-2 mb-5" />
+				<div class="row g-5">
+					<div class="col-md-6">
+						<h2>Just play a game.</h2>
+						<p>You can go to a <a href="#lobby">Lobby</a> to join or create a game lobby. </p>
+						<p>There are two types of games the first is a Score based game, the other one is a multiplayer game.</p>
+					</div>
+					<div class="col-md-6">
+						<h2>Create your own game.</h2>
+						<p>There are a few rules you have to keep in mind when you make a game.</p>
+						<ul>
+							<li>Css file with the styling.</li>
+							<li>Javascript file with the whole game inside of it.</li>
+							<li>Json according to the json template.</li>
+						</ul>
+						<div class="accordion" id="accordionPanelsStayOpenExample">
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="panelsStayOpen-headingOne">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne"> Javascript </button>
+								</h2>
+								<div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+									<div class="accordion-body"> hoe de game in elkaar moet zitten
+								</div>
+							</div>
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo"> CSS and JSON  </button>
+								</h2>
+								<div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+									<div class="accordion-body"> uitleg over hoe de css en json bestanden er uit moeten zien
+								</div>
+							</div>
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="panelsStayOpen-headingThree">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree"> Upload </button>
+								</h2>
+								<div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+									<div class="accordion-body"> waar je hem kan uploaden en hoe
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>`;
+	$pageContentCodeBlock[0].innerHTML = pageDesign;
 }
 export function homePageHTML() {
 	clearHtml();

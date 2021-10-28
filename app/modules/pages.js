@@ -41,7 +41,7 @@ export function lobbyPreGame() {
 	lobbyItems.gameInformation();
 	lobbyItems.lobbyPreGameFunctions();
 	lobbyItems.playerlist();
-	// lobbyItems.chatFunctions();
+	lobbyItems.chatFunctions();
 
 	socket.on("startGame", (data) => {
 		// gameName moet dan de naam krijgen van de game die word ge emit
