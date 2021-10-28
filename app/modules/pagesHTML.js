@@ -139,6 +139,13 @@ export function informationPageHTML() {
 	h2.textContent = "informationPage";
 	$pageContentCodeBlock[0].appendChild(h2);
 }
+export function lobbyInGameHTML() {
+	clearHtml();
+	let gameBlock = document.createElement("div");
+	gameBlock.id = "game";
+	gameBlock.className = "game";
+	$pageContentCodeBlock[0].appendChild(gameBlock);
+}
 export function homePageHTML() {
 	clearHtml();
 	let h2 = document.createElement("h2");

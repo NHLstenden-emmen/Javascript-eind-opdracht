@@ -85,7 +85,8 @@ export function lobbyPreGameFunctions() {
 			}
 		});
 	});
-	socket.on("startGame"), (selectedGame) => {
-		lobbyInGame(selectedGame);
-	}
+	socket.on("startGame"),
+		(selectedGame) => {
+			lobbyInGame(selectedGame);
+		};
 }
