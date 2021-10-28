@@ -43,24 +43,24 @@ export function lobbyPreGame() {
 }
 
 export function lobbyInGame() {
-	let gameName;
-	socket.on("startGame", (data) => {
-		console.log(data);
-		// gameName moet dan de naam krijgen van de game die word ge emit
-		gameName = data;
-	});
-	// inplaats van memory moet het woord memeory met gameName worden vervangen
-	import { startGame, score, endGame } from "../games/memory/memory.js";
-	// get the css of the game
-	$("<link/>", { rel: "stylesheet", type: "text/css", href: "../games/memory/memory.css" }).appendTo("head");
-	startGame();
-	// update the score in score games
-	setInterval(function () {
-		console.log(score);
-		if (endGame == true) {
-			console.log("stopthe game");
-		}
-	}, 2000);
+	// let gameName;
+	// socket.on("startGame", (data) => {
+	// 	console.log(data);
+	// 	// gameName moet dan de naam krijgen van de game die word ge emit
+	// 	gameName = data;
+	// });
+	// // inplaats van memory moet het woord memeory met gameName worden vervangen
+	// import { startGame, score, endGame } from "../games/memory/memory.js";
+	// // get the css of the game
+	// $("<link/>", { rel: "stylesheet", type: "text/css", href: "../games/memory/memory.css" }).appendTo("head");
+	// startGame();
+	// // update the score in score games
+	// setInterval(function () {
+	// 	console.log(score);
+	// 	if (endGame == true) {
+	// 		console.log("stopthe game");
+	// 	}
+	// }, 2000);
 }
 export function informationPage() {
 	pagesHTML.informationPageHTML();

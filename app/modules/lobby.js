@@ -23,6 +23,7 @@ export function gameInformation() {
 	})
 		.done(function (data) {
 			pagesHTML.seroundingDivAccordion(result.name, result.shortDesc);
+			pagesHTML.seroundingDivAccordion(result.name, result.shortDesc);
 		})
 		.fail(function () {
 			result.name = "name";
