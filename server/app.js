@@ -84,7 +84,7 @@ io.on("connection", (socket) => {
 		console.log(`User ${username} with id ${socket.id} Joined ${lobbyID}`);
 		console.log(lobbies)
 		// Laat de client weten dat de lobby succesvol gejoined is.
-		io.in(lobbyID).emit("lobbyChange", lobbyID);
+		io.to(socket.id).emit("lobbyChange", lobbyID);
 
 		// Verstuur bericht dat de player gejoined is
 		io.in(lobbyID).emit("message", {

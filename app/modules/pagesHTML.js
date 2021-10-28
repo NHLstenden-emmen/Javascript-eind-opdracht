@@ -100,7 +100,11 @@ export function lobbyPreGameHTML() {
 	messageInput.placeholder = "Message";
 	// message button
 	let messageButton = document.createElement("button");
+<<<<<<< HEAD
 	messageButton.className = "btn btn-primary col-1";
+=======
+	messageButton.className = "btn btn-primary col-2";
+>>>>>>> 57b67b9f037ab0a769ccdaf33d7fbb76262fd8cd
 	messageButton.id = "send";
 	messageButton.textContent = "Send";
 	// append them to the row
@@ -149,6 +153,10 @@ export function homePageHTML() {
 
 export function seroundingDivAccordion(title, desc) {
 	const $gameList = $("#gameList");
+<<<<<<< HEAD
+=======
+	console.log(title);
+>>>>>>> 57b67b9f037ab0a769ccdaf33d7fbb76262fd8cd
 	let h2 = document.createElement("h2");
 	h2.id = "lobbyText";
 	h2.className = "text-center";
