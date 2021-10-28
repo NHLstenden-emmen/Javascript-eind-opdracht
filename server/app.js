@@ -10,6 +10,10 @@ const io = new Server(httpServer, {
 	cors: { origin: "*" },
 });
 
+// Port voor socket server. 
+// 8080 In testomgeving, 3000 Op server (nginx reverse proxy past poort aan).
+const port = 8080;
+
 class Lobby {
 	constructor(id) {
 		this.id = id;
@@ -18,12 +22,20 @@ class Lobby {
 		this.game = null;
 	}
 
-	removePlayer(id) {
-		this.players = this.players.filter((player) => player.id !== id);
+	removePlayer(remPlayer) {
+		this.players = this.players.filter((player) => player !== remPlayer);
 	}
 
 	getPlayer(id) {
 		return this.players.find((player) => player.id == id);
+	}
+
+	addPlayer(player) {
+		this.players.push(player);
+	}
+
+	addCreatePlayer(playerID, name) {
+		this.addPlayer(new Player(playerID, name));
 	}
 }
 
@@ -40,54 +52,82 @@ class Player {
 	}
 }
 
+// Lijst met games.
 let games = [];
+// Voeg alle games in de map games toe aan de lijst. Voert Asynchroon uit.
+fs.readdir("../games", (err, files) => {
+	files.forEach((file) => {
+		games.push(file);
+	});
+});
 
+// Dictionary met lobbies.
 const lobbies = {};
 
+//Client opent verbinding met de socket.
 io.on("connection", (socket) => {
 	console.log(`client with id ${socket.id} connected.`);
 
-	socket.on("joinLobby", ({ lobbyID, username }) => {
-		addLobby(lobbyID);
-		addPlayerToLobby(lobbyID, socket.id, username);
-		socket.name = sanitizeString(username);
-		socket.lobby = lobbyID;
+	socket.on("joinLobby", ({lobbyID, username}) => {
+		lobbyID = sanitizeString(lobbyID);
+		username = sanitizeString(username);
 		socket.join(lobbyID);
-		console.log(`User ${socket.name} with id ${socket.id} Joined ${lobbyID}`);
+		let lobby = lobbies[lobbyID];
+		if (!lobby) {
+			//Lobby bestaat nog niet, maak een nieuwe aan.
+			lobby = new Lobby(lobbyID);
+			lobbies[lobbyID] = lobby;
+		}
+		// Maak nieuwe palyer aan, en 
+		let player = new Player(socket.id, username);
+		lobby.players.push(player);
+		console.log(`User ${username} with id ${socket.id} Joined ${lobbyID}`);
+		console.log(lobbies)
+		// Laat de client weten dat de lobby succesvol gejoined is.
 		io.in(lobbyID).emit("lobbyChange", lobbyID);
-		io.in(lobbyID).emit("message", {
-			username: socket.name,
-			msg: " Joined!",
-		});
-		updateLobby(lobbyID, socket);
 
+		// Verstuur bericht dat de player gejoined is
+		io.in(lobbyID).emit("message", {
+			username: "Lobby",
+			msg: `${username} Joined!`,
+		});
+		// Verstuur alle clients in de lobby dat er een nieuwe player gejoined is.
+		updateLobby(lobbyID);
+
+		// Verstuur het binnenkomende bericht naar de lobby.
 		socket.on("message", (msg) => {
 			io.in(lobbyID).emit("message", {
-				username: socket.name,
+				username: username,
 				msg: sanitizeString(msg),
 			});
 		});
 
+		// Verstuur de lijst met games wanneer een client dit opvraagt.
+		// Todo: verstuur dit on join, en sla dit op als var in de client.
 		socket.on("getGameList", () => {
-			io.in(lobbyID).emit("gameList", getGameNames());
+			io.in(lobbyID).emit("gameList", games);
 		});
 
+		// Ready / unready de player, verstuur dit naar players in de lobby.
 		socket.on("toggleReady", () => {
-			lobbies[socket.lobby].getPlayer(socket.id).toggleReady();
-			updateLobby(lobbyID, socket);
+			player.toggleReady();
+			updateLobby(lobbyID);
+		});
+
+		// Gebruiker disconnect. Sluit het browsertab, of drukt op een (nieuwe feature?) disconnect knop.
+		socket.on("disconnect", () => {
+			console.log(`User ${username} with id ${socket.id} left.`);
+			lobby.removePlayer(player)
+			updateLobby(lobbyID);
 		});
 	});
 
-	socket.on("disconnect", () => {
-		removePlayerFromLobby(socket.lobby, socket.id);
-		console.log(`User ${socket.name} with id ${socket.id} left.`);
-		updateLobby(socket.lobby, socket);
-	});
 });
 
-const updateLobby = (lobbyID, socket) => {
+const updateLobby = (lobbyID) => {
 	io.in(lobbyID).emit("playerList", {
-		lobby: lobbies[socket.lobby],
+		lobby: lobbies[lobbyID],
+		lobbyID: lobbyID
 	});
 };
 
@@ -96,46 +136,5 @@ const sanitizeString = (str) => {
 	return str.trim();
 };
 
-const addLobby = (lobbyID) => {
-	const lobby = lobbies[lobbyID];
-	if (lobby) {
-		return;
-	}
-
-	lobbies[lobbyID] = new Lobby(lobbyID);
-};
-
-const addPlayerToLobby = (lobbyID, playerID, name) => {
-	const lobby = lobbies[lobbyID];
-	if (!lobby) {
-		return;
-	}
-
-	lobby.players.push(new Player(playerID, name));
-	lobbies[lobbyID] = lobby;
-	console.log(lobbies);
-};
-
-const removePlayerFromLobby = (lobbyID, playerID) => {
-	const lobby = lobbies[lobbyID];
-	if (!lobby) {
-		return;
-	}
-
-	lobbies[lobbyID].removePlayer(playerID);
-
-	if (lobby.players.length < 1) {
-		lobbies[lobbyID] = null;
-		return;
-	}
-};
-getGameNames();
-function getGameNames() {
-	fs.readdir("../games", (err, files) => {
-		files.forEach((file) => {
-			games.push(file);
-		});
-	});
-}
-
-httpServer.listen(8080, () => console.log("listening on port 8080!"));
+// Start de socket server.
+httpServer.listen(port, () => console.log(`listening on port ${port}!`));
