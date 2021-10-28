@@ -5,45 +5,42 @@ export function joinLobby() {}
 export function createLobby() {}
 
 export function gameInformation() {
-	let gameList = {}
-
-	// loop trough games
-	let result = {};
-	$.getJSON("../games/memory/memory.json", function (data) {
-		result.name = data.name;
-		result.shortDesc = data.description.short;
-		result.longDesc = data.description.long;
-		result.gameType = data.gameType;
-		result.minPlayers = data.players.min;
-		result.maxPlayers = data.players.max;
-		// loops trough all the rules
-		let rules = {};
-		for (let x in data.Rules) {
-			rules[x] = data.Rules[x];
-		}
-		result.Rules = rules;
-		// moet nog even naar gameSettings kijken
+	socket.on("gameList", (games) => {
+		games.forEach(game => {
+			let result = {};
+			$.getJSON(`../games/${game}/${game}.json`, function (data) {
+				result.name = data.name;
+				result.shortDesc = data.description.short;
+				result.longDesc = data.description.long;
+				result.gameType = data.gameType;
+				result.minPlayers = data.players.min;
+				result.maxPlayers = data.players.max;
+				// loops trough all the rules
+				let rules = {};
+				for (let x in data.Rules) {
+					rules[x] = data.Rules[x];
+				}
+				result.Rules = rules;
+				// moet nog even naar gameSettings kijken
+			})
+			.done(function () {
+				pagesHTML.seroundingDivAccordion(result.name, result.shortDesc);
+			})
+			.fail(function () {
+				result.name = "name";
+				result.shortDesc = "short description";
+				result.longDesc = "long description";
+				result.gameType = "game type";
+				result.minPlayers = "min players";
+				result.maxPlayers = "max players";
+				result.Rules = "Rules";
+				result.gameSettings = "gameSettings";
+			});
+		});
 	})
-	.done(function (data) {
-		pagesHTML.seroundingDivAccordion(result.name, result.shortDesc);
-		pagesHTML.seroundingDivAccordion(result.name, result.shortDesc);
-	})
-	.fail(function () {
-		result.name = "name";
-		result.shortDesc = "short description";
-		result.longDesc = "long description";
-		result.gameType = "game type";
-		result.minPlayers = "min players";
-		result.maxPlayers = "max players";
-		result.Rules = "Rules";
-		result.gameSettings = "gameSettings";
-	});
-	socket.on("gameList"), (games) => {
-		gameList = games;
-	}
-	if (!gameList) {
-		// Game list is leeg...
-	}
+	
+	
+	
 }
 
 export function joinLobbyContainerFunctions() {

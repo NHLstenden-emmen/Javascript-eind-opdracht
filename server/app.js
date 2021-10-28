@@ -68,9 +68,6 @@ const lobbies = {};
 io.on("connection", (socket) => {
 	console.log(`client with id ${socket.id} connected.`);
 
-	// Verstuur lijst met games.
-	io.to(socket.id).emit("gameList", games);
-
 	socket.on("joinLobby", ({lobbyID, username}) => {
 		lobbyID = sanitizeString(lobbyID);
 		username = sanitizeString(username);
@@ -105,16 +102,20 @@ io.on("connection", (socket) => {
 			});
 		});
 
+		// Verstuur lijst met games.
+		io.to(socket.id).emit("gameList", games);
+
 		// Ready / unready de player, verstuur dit naar players in de lobby.
 		socket.on("toggleReady", () => {
 			player.toggleReady();
 			updateLobby(lobbyID);
 			lobby.players.forEach(player => {
 				if (!player.ready) { return; }
+			})
+			console.log("all players ready for lobby " + lobbyID)
 				// Tmp altijd memory selecten, die is af.
 				let selectedGame = "memory";
 				io.in(lobbyID).emit("startGame", selectedGame)
-			})
 		});
 
 		// Gebruiker disconnect. Sluit het browsertab, of drukt op een (nieuwe feature?) disconnect knop.
@@ -122,6 +123,7 @@ io.on("connection", (socket) => {
 			console.log(`User ${username} with id ${socket.id} left.`);
 			lobby.removePlayer(player)
 			updateLobby(lobbyID);
+			// TODO: wanneer lobby leeg is, remove from mem.
 		});
 	});
 
