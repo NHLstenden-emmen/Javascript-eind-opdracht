@@ -51,6 +51,7 @@ export function joinLobbyContainerFunctions() {
 
 export function lobbyPreGameFunctions() {
 	$("#send").on("click", () => {
+		console.log(socket.listenersAny());
 		var msg = $("#msg").val();
 		socket.emit("message", msg);
 		$("#msg").val("");
@@ -60,7 +61,9 @@ export function lobbyPreGameFunctions() {
 		socket.emit("toggleReady");
 	});
 
+	console.log("CALL DIT!");
 	socket.on("message", (data) => {
+		console.log("Msg recieved: " + data);
 		$("#msgs").prepend(`<p>${sanitizeString(data.username)}: ${sanitizeString(data.msg)}</p>`);
 	});
 

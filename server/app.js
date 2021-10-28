@@ -12,7 +12,7 @@ const io = new Server(httpServer, {
 
 // Port voor socket server. 
 // 8080 In testomgeving, 3000 Op server (nginx reverse proxy past poort aan).
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 class Lobby {
 	constructor(id) {
@@ -112,6 +112,7 @@ io.on("connection", (socket) => {
 		socket.on("toggleReady", () => {
 			player.toggleReady();
 			updateLobby(lobbyID);
+			console.log(io.sockets.adapter.rooms);
 		});
 
 		// Gebruiker disconnect. Sluit het browsertab, of drukt op een (nieuwe feature?) disconnect knop.

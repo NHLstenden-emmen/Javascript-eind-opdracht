@@ -2,6 +2,8 @@ import { socket } from "../app.js";
 import * as lobbyItems from "./lobby.js";
 import * as pagesHTML from "./pagesHTML.js";
 
+let isInLobby = false;
+
 export function selectActivePage() {
 	var type = window.location.hash.substr(1);
 	if (type == "lobby") {
@@ -29,6 +31,9 @@ export function joinLobbyContainer() {
 }
 
 export function lobbyPreGame() {
+	if (isInLobby) { return; }
+	isInLobby = true;
+
 	pagesHTML.lobbyPreGameHTML();
 
 	lobbyItems.gameInformation();
