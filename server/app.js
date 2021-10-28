@@ -112,7 +112,12 @@ io.on("connection", (socket) => {
 		socket.on("toggleReady", () => {
 			player.toggleReady();
 			updateLobby(lobbyID);
-			console.log(io.sockets.adapter.rooms);
+			lobby.players.forEach(player => {
+				if (!player.ready) { return; }
+				// Tmp altijd memory selecten, die is af.
+				let selectedGame = "memory";
+				io.in(lobbyID).emit("startGame", selectedGame)
+			})
 		});
 
 		// Gebruiker disconnect. Sluit het browsertab, of drukt op een (nieuwe feature?) disconnect knop.

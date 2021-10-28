@@ -1,4 +1,5 @@
 import { socket } from "../app.js";
+import { lobbyInGame } from "./pages.js";
 import * as pagesHTML from "./pagesHTML.js";
 export function joinLobby() {}
 export function createLobby() {}
@@ -79,4 +80,7 @@ export function lobbyPreGameFunctions() {
 			}
 		});
 	});
+	socket.on("startGame"), (selectedGame) => {
+		lobbyInGame(selectedGame);
+	}
 }
