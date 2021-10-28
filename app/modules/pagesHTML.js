@@ -1,4 +1,5 @@
 const $pageContentCodeBlock = $("#main");
+var accordionNumber = 1;
 
 function clearHtml() {
 	$pageContentCodeBlock.empty(); // clear images
@@ -149,23 +150,43 @@ export function homePageHTML() {
 
 export function seroundingDivAccordion(title, desc) {
 	const $gameList = $("#gameList");
-	let h2 = document.createElement("h2");
-	h2.id = "lobbyText";
-	h2.className = "text-center";
-	h2.textContent = title;
-	// js hier van maken
-	// <div class="accordion-item">
-	// 	<h2 class="accordion-header" id="headingOne">
-	// 		<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-	// 		Accordion Item #1
-	// 		</button>
-	// 	</h2>
-	// 	<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-	// 		<div class="accordion-body">
-	// 		<strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-	// 		</div>
-	// 	</div>
-	// </div>
-
-	// $gameList[0].appendChild(h2);
+	//increase accordionNumber
+	accordionNumber++;
+	// accordion Item list
+	let accordionItem = document.createElement("div");
+	accordionItem.className = "accordion-item";
+	// accordion header
+	let headerH2 = document.createElement("h2");
+	headerH2.id = "heading" + accordionNumber;
+	headerH2.className = "accordion-header";
+	// accordion header button
+	let headerButton = document.createElement("button");
+	headerButton.id = "heading" + accordionNumber;
+	headerButton.type = "button";
+	headerButton.className = "accordion-button collapsed";
+	headerButton.setAttribute("data-bs-target", "#collapse" + accordionNumber);
+	headerButton.setAttribute("data-bs-toggle", "collapse");
+	headerButton.setAttribute("aria-expanded", "true");
+	headerButton.setAttribute("aria-controls", "collapse" + accordionNumber);
+	headerButton.textContent = title;
+	// accordion-collapse body
+	let accordionCollapseBody = document.createElement("div");
+	accordionCollapseBody.id = "collapse" + accordionNumber;
+	accordionCollapseBody.className = "accordion-collapse collapse";
+	accordionCollapseBody.setAttribute("aria-labelledby", "heading" + accordionNumber);
+	accordionCollapseBody.setAttribute("data-bs-parent", "accordionExample");
+	// accordion-collapse inner div for body
+	let accordionBody = document.createElement("div");
+	accordionBody.className = "accordion-body";
+	// accordion body content
+	let accordionBodyP = document.createElement("p");
+	accordionBodyP.textContent = desc;
+	// head
+	headerH2.appendChild(headerButton);
+	accordionItem.appendChild(headerH2);
+	// body
+	accordionBody.appendChild(accordionBodyP);
+	accordionCollapseBody.appendChild(accordionBody);
+	accordionItem.appendChild(accordionCollapseBody);
+	$gameList[0].appendChild(accordionItem);
 }

@@ -26,6 +26,7 @@ export function gameInformation() {
 	})
 	.done(function (data) {
 		pagesHTML.seroundingDivAccordion(result.name, result.shortDesc);
+		pagesHTML.seroundingDivAccordion(result.name, result.shortDesc);
 	})
 	.fail(function () {
 		result.name = "name";
@@ -37,14 +38,12 @@ export function gameInformation() {
 		result.Rules = "Rules";
 		result.gameSettings = "gameSettings";
 	});
-
 	socket.on("gameList"), (games) => {
 		gameList = games;
 	}
 	if (!gameList) {
 		// Game list is leeg...
 	}
-	
 }
 
 export function joinLobbyContainerFunctions() {
