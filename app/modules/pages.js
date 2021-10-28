@@ -42,7 +42,6 @@ export function lobbyPreGame() {
 	lobbyItems.lobbyPreGameFunctions();
 }
 
-<<<<<<< HEAD
 export function lobbyInGame() {
 	// let gameName;
 	// socket.on("startGame", (data) => {
@@ -62,21 +61,6 @@ export function lobbyInGame() {
 	// 		console.log("stopthe game");
 	// 	}
 	// }, 2000);
-=======
-export function lobbyInGame(gameName) {
-	// inplaats van memory moet het woord memeory met gameName worden vervangen
-	import { startGame, score, endGame } from "../games/memory/memory.js";
-	// get the css of the game
-	$("<link/>", { rel: "stylesheet", type: "text/css", href: "../games/memory/memory.css" }).appendTo("head");
-	startGame();
-	// update the score in score games
-	setInterval(function () {
-		console.log(score);
-		if (endGame == true) {
-			console.log("stopthe game");
-		}
-	}, 2000);
->>>>>>> c45ad7c6415898d9c952ade743c5d2eae24e4080
 }
 export function informationPage() {
 	pagesHTML.informationPageHTML();
