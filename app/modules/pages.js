@@ -2,7 +2,8 @@ import { socket } from "../app.js";
 import * as lobbyItems from "./lobby.js";
 import * as pagesHTML from "./pagesHTML.js";
 
-var isInLobby = null;
+let isInLobby = null;
+let checkGameStatus;
 
 export function selectActivePage() {
 	let type = window.location.hash.substr(1);
@@ -37,6 +38,9 @@ export function joinLobbyContainer() {
 }
 
 export function lobbyPreGame() {
+	clearInterval(checkGameStatus);
+	checkGameStatus = null;
+
 	pagesHTML.lobbyPreGameHTML();
 	lobbyItems.gameInformation();
 	lobbyItems.lobbyPreGameFunctions();
@@ -55,7 +59,7 @@ export async function lobbyInGame(gameNameForImport, gameNameForCSS) {
 	$("<link/>", { rel: "stylesheet", type: "text/css", href: gameNameForCSS }).appendTo("head");
 	startGame();
 	// update the score in score games
-	setInterval(function () {
+	checkGameStatus = setInterval(function () {
 		let score = getScore();
 		let endgame = getEndgame();
 		console.log(score);
