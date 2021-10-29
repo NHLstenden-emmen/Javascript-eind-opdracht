@@ -1,7 +1,7 @@
 var memoryBoard = document.getElementById("game");
 var cardClass = document.getElementsByClassName("memoryImage");
 var backgroundImage = "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/75082/red-skip-card-clipart-sm.png";
-var amoundOfCards = 1;
+var amoundOfCards = 5;
 var showCardsTime = 2;
 var fipAnother = true;
 var lastCard;
