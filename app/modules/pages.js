@@ -63,8 +63,7 @@ export async function lobbyInGame(gameNameForImport, gameNameForCSS) {
 		if (endgame == true) {
 			// stop the game and share the score while going back to the pre lobby
 			socket.emit("gameEnd", score);
-			lobbyPreGame();
-			location.reload();
+			return lobbyPreGame();
 		}
 	}, 2000);
 }
