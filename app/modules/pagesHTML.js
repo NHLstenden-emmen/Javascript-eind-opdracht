@@ -221,7 +221,7 @@ export function informationPageHTML() {
 									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne"> Javascript </button>
 								</h2>
 								<div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
-									<div class="accordion-body"> hoe de game in elkaar moet zitten
+									<div class="accordion-body"> Coming soon!
 								</div>
 							</div>
 							<div class="accordion-item">
@@ -229,7 +229,7 @@ export function informationPageHTML() {
 									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo"> CSS and JSON  </button>
 								</h2>
 								<div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
-									<div class="accordion-body"> uitleg over hoe de css en json bestanden er uit moeten zien
+									<div class="accordion-body"> Coming soon!
 								</div>
 							</div>
 							<div class="accordion-item">
@@ -237,8 +237,7 @@ export function informationPageHTML() {
 									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree"> Upload </button>
 								</h2>
 								<div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
-									<div class="accordion-body"> waar je hem kan uploaden en hoe
-								</div>
+									<div class="accordion-body"> Coming soon!
 							</div>
 						</div>
 					</div>
@@ -249,11 +248,25 @@ export function informationPageHTML() {
 }
 export function homePageHTML() {
 	clearHtml();
-	let h2 = document.createElement("h2");
-	h2.id = "lobbyText";
-	h2.className = "text-center";
-	h2.textContent = "HOME PAGE";
-	$pageContentCodeBlock[0].appendChild(h2);
+	let pageDesign = 
+	`<div class="Rules col-lg-8 mx-auto p-3 py-md-5">
+	<main>
+		<h1>Gamen met Gerjan</h1>
+		<p class="fs-5 col-md-8">What's up gamers!</p>
+		<hr class="col-3 col-md-2 mb-5" />
+		<div class="row g-5">
+			<div class="col-md-6">
+				<h2>Just play a game.</h2>
+				<p>Just do it. Join a <a href="#lobby">Lobby.</a></p>
+				<p>Real gamers game on gamen met gerjan. Its a site. The best site yes.</p>
+				<p>This amazing site was created by Kevin Smulders and Jeffrey Roossien. We both like spaghetti.</p> 
+				<img class="img-fluid" src="https://img.youtube.com/vi/T56X53xRvhM/maxresdefault.jpg" alt="super mario irl">
+			</div>
+			
+		</div>
+	</main>
+</div>`;
+	$pageContentCodeBlock[0].innerHTML = pageDesign;
 }
 
 export function seroundingDivAccordion(title, desc) {
