@@ -63,8 +63,8 @@ export async function lobbyInGame(gameNameForImport, gameNameForCSS) {
 	setInterval(function () {
 		console.log(score);
 		if (endGame == true) {
-			console.log("stopthe game");
 			lobbyPreGame();
+			socket.emit("gameEnd", msg);
 		}
 	}, 2000);
 }

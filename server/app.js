@@ -82,7 +82,6 @@ io.on("connection", (socket) => {
 		let player = new Player(socket.id, username);
 		lobby.players.push(player);
 		console.log(`User ${username} with id ${socket.id} Joined ${lobbyID}`);
-		console.log(lobbies)
 		// Laat de client weten dat de lobby succesvol gejoined is.
 		io.to(socket.id).emit("lobbyChange", lobbyID);
 
@@ -102,6 +101,13 @@ io.on("connection", (socket) => {
 			});
 		});
 
+		socket.on("gameEnd", (msg) => {
+			io.in(lobbyID).emit("message", {
+				username: "Game: ",
+				msg: sanitizeString(msg),
+			});
+		});
+
 		// Verstuur lijst met games.
 		io.to(socket.id).emit("gameList", games);
 
@@ -114,8 +120,9 @@ io.on("connection", (socket) => {
 				if (!player.ready) { lobbyReady = false; }
 			})
 			if (lobbyReady) {
-				console.log("all players ready for lobby " + lobbyID)
+				console.log("Game starting in " + lobbyID)
 				// Tmp altijd memory selecten, die is af.
+				// let selectedGame = "fourInARow";
 				let selectedGame = "memory";
 				io.in(lobbyID).emit("startGame", selectedGame)
 			}

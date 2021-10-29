@@ -1,11 +1,17 @@
 let turn = "red";
 let victory = false;
 let board = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-updateBoard();
 
-function updateBoard() {
+export let endGame = false;
+
+export function startGame() {
+	updateBoard();
+	// $("#game").html("<p>test!</p>");
+}
+
+export function updateBoard() {
 	var $info = $("#info");
-	$("#board").html("");
+	$("#game").html("");
 	$info.html("");
 	board.forEach(renderBlock);
 	$(".game").on("click", function () {
@@ -21,7 +27,7 @@ function updateBoard() {
 	}
 }
 
-function checkVictory() {
+export function checkVictory() {
 	let index = 0;
 	let bCount = 0;
 	let rCount = 0;
@@ -121,17 +127,17 @@ function checkVictory() {
 	}
 }
 
-function resetBoard() {
+export function resetBoard() {
 	board = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	victory = false;
 }
 
-function renderBlock(item, index, arr) {
+export function renderBlock(item, index, arr) {
 	const color = findColor(item);
-	$("#board").append(`<div id="${index}" class="${color} game"></div>`);
+	$("#game").append(`<div id="${index}" class="${color} game"></div>`);
 }
 
-function play(index) {
+export function play(index) {
 	if (victory) {
 		return;
 	}
@@ -149,7 +155,7 @@ function play(index) {
 	updateBoard();
 }
 
-function insertOnX(x, turnInt) {
+export function insertOnX(x, turnInt) {
 	let index = 35 + x;
 	while (board[index] !== 0 && index > -1) {
 		index = index - 7;
@@ -161,7 +167,7 @@ function insertOnX(x, turnInt) {
 	return true;
 }
 
-function getX(index) {
+export function getX(index) {
 	let xIndex = 0;
 	let row = [0, 7, 14, 21, 28, 35];
 	while (xIndex <= 7) {
@@ -174,14 +180,14 @@ function getX(index) {
 	return -1;
 }
 
-function increaseOne(arr) {
+export function increaseOne(arr) {
 	for (let i = 0; i < arr.length; i++) {
 		arr[i] = arr[i] + 1;
 	}
 	return arr;
 }
 
-function findColor(item) {
+export function findColor(item) {
 	switch (item) {
 		case 0:
 			return "black";
