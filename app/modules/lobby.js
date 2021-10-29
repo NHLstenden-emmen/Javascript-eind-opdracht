@@ -51,14 +51,16 @@ export function joinLobbyContainerFunctions() {
 		socket.emit("joinLobby", { lobbyID, username });
 	}
 }
-
 export function lobbyPreGameFunctions() {
 	$("#ready").on("click", () => {
 		socket.emit("toggleReady");
 	});
 
-	socket.on("startGame", (selectedGame) => {
-		lobbyInGame(selectedGame);
+	socket.on("startGame", (data) => {
+		// gameName moet dan de naam krijgen van de game die word ge emit
+		let gameNameForImport = `../../games/${data}/${data}.js`;
+		let gameNameForCSS = `../games/${data}/${data}.css`;
+		lobbyInGame(gameNameForImport, gameNameForCSS);
 	});
 }
 export function playerlist() {
@@ -81,11 +83,16 @@ export function chatFunctions() {
 	});
 
 	socket.on("message", (data) => {
-		$("#msgs").prepend(`<p>${sanitizeString(data.username)}: ${sanitizeString(data.msg)}</p>`);
+		$("#msgs").prepend(`<p>${data.username}: ${data.msg}</p>`);
 	});
 
-	const sanitizeString = (str) => {
-		str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim, "");
-		return str.trim();
-	};
+	// dit was de bedoeling maar dit werkt niet gekke bug
+	// socket.on("message", (data) => {
+	// 	$("#msgs").prepend(`<p>${sanitizeString(data.username)}: ${sanitizeString(data.msg)}</p>`);
+	// });
+
+	// const sanitizeString = (str) => {
+	// 	str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim, "");
+	// 	return str.trim();
+	// };
 }

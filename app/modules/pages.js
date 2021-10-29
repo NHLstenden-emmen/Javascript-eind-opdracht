@@ -2,7 +2,7 @@ import { socket } from "../app.js";
 import * as lobbyItems from "./lobby.js";
 import * as pagesHTML from "./pagesHTML.js";
 
-let isInLobby = false;
+var isInLobby = null;
 
 export function selectActivePage() {
 	let type = window.location.hash.substr(1);
@@ -17,7 +17,12 @@ export function selectActivePage() {
 
 export function lobbyCheck() {
 	// als die al gejoined is joint hij dat weer anders naar
-	joinLobbyContainer();
+
+	if (isInLobby !== null) {
+		socket.emit("rejoinLobby", { isInLobby });
+	} else {
+		joinLobbyContainer();
+	}
 }
 
 export function joinLobbyContainer() {
@@ -26,45 +31,40 @@ export function joinLobbyContainer() {
 	lobbyItems.joinLobbyContainerFunctions();
 
 	socket.on("lobbyChange", (lobby) => {
+		isInLobby = lobby;
 		lobbyPreGame();
 	});
 }
 
 export function lobbyPreGame() {
-	if (isInLobby) {
-		return;
-	}
-	isInLobby = true;
-
 	pagesHTML.lobbyPreGameHTML();
-
 	lobbyItems.gameInformation();
 	lobbyItems.lobbyPreGameFunctions();
 	lobbyItems.playerlist();
 	lobbyItems.chatFunctions();
-
-	socket.on("startGame", (data) => {
-		// gameName moet dan de naam krijgen van de game die word ge emit
-		let gameNameForImport = `../../games/${data}/${data}.js`;
-		let gameNameForCSS = `../games/${data}/${data}.css`;
-		lobbyInGame(gameNameForImport, gameNameForCSS);
-	});
 }
 export async function lobbyInGame(gameNameForImport, gameNameForCSS) {
 	pagesHTML.lobbyInGameHTML();
+
 	lobbyItems.playerlist();
 	lobbyItems.chatFunctions();
+
 	// memory should be changed with gameName so you can start other games
-	let { startGame, score, endGame } = await import(gameNameForImport);
+	let { startGame, getScore, getEndgame } = await import(gameNameForImport);
 	// get the css of the game
 	$("<link/>", { rel: "stylesheet", type: "text/css", href: gameNameForCSS }).appendTo("head");
 	startGame();
 	// update the score in score games
 	setInterval(function () {
+		let score = getScore();
+		let endgame = getEndgame();
 		console.log(score);
-		if (endGame == true) {
+		console.log(endgame);
+		if (endgame == true) {
+			// stop the game and share the score while going back to the pre lobby
+			socket.emit("gameEnd", score);
 			lobbyPreGame();
-			socket.emit("gameEnd", msg);
+			location.reload();
 		}
 	}, 2000);
 }

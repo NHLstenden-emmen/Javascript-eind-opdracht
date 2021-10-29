@@ -10,7 +10,7 @@ const io = new Server(httpServer, {
 	cors: { origin: "*" },
 });
 
-// Port voor socket server. 
+// Port voor socket server.
 // 8080 In testomgeving, 3000 Op server (nginx reverse proxy past poort aan).
 const port = process.env.PORT || 8080;
 
@@ -68,7 +68,7 @@ const lobbies = {};
 io.on("connection", (socket) => {
 	console.log(`client with id ${socket.id} connected.`);
 
-	socket.on("joinLobby", ({lobbyID, username}) => {
+	socket.on("joinLobby", ({ lobbyID, username }) => {
 		lobbyID = sanitizeString(lobbyID);
 		username = sanitizeString(username);
 		socket.join(lobbyID);
@@ -78,11 +78,12 @@ io.on("connection", (socket) => {
 			lobby = new Lobby(lobbyID);
 			lobbies[lobbyID] = lobby;
 		}
-		// Maak nieuwe palyer aan, en 
+		// Maak nieuwe palyer aan, en
 		let player = new Player(socket.id, username);
 		lobby.players.push(player);
 		console.log(`User ${username} with id ${socket.id} Joined ${lobbyID}`);
 		// Laat de client weten dat de lobby succesvol gejoined is.
+		console.log(socket.id);
 		io.to(socket.id).emit("lobbyChange", lobbyID);
 
 		// Verstuur bericht dat de player gejoined is
@@ -101,11 +102,13 @@ io.on("connection", (socket) => {
 			});
 		});
 
-		socket.on("gameEnd", (msg) => {
-			io.in(lobbyID).emit("message", {
-				username: "Game: ",
-				msg: sanitizeString(msg),
-			});
+		// lets the user rejoin the lobby
+		socket.on("rejoinLobby", () => {
+			io.to(socket.id).emit("lobbyChange", lobbyID);
+		});
+
+		socket.on("gameEnd", () => {
+			io.to(socket.id).emit("lobbyChange", lobbyID);
 		});
 
 		// Verstuur lijst met games.
@@ -116,35 +119,36 @@ io.on("connection", (socket) => {
 			player.toggleReady();
 			updateLobby(lobbyID);
 			let lobbyReady = true;
-			lobby.players.forEach(player => {
-				if (!player.ready) { lobbyReady = false; }
-			})
+			lobby.players.forEach((player) => {
+				if (!player.ready) {
+					lobbyReady = false;
+				}
+			});
 			if (lobbyReady) {
-				console.log("Game starting in " + lobbyID)
+				console.log("Game starting in " + lobbyID);
 				// Tmp altijd memory selecten, die is af.
 				// let selectedGame = "fourInARow";
 				let selectedGame = "memory";
-				io.in(lobbyID).emit("startGame", selectedGame)
+				io.in(lobbyID).emit("startGame", selectedGame);
 			}
 		});
 
 		// Gebruiker disconnect. Sluit het browsertab, of drukt op een (nieuwe feature?) disconnect knop.
 		socket.on("disconnect", () => {
 			console.log(`User ${username} with id ${socket.id} left.`);
-			lobby.removePlayer(player)
+			lobby.removePlayer(player);
 			updateLobby(lobbyID);
 			if (lobby.players.length === 0) {
 				delete lobbies[lobbyID];
 			}
 		});
 	});
-
 });
 
 const updateLobby = (lobbyID) => {
 	io.in(lobbyID).emit("playerList", {
 		lobby: lobbies[lobbyID],
-		lobbyID: lobbyID
+		lobbyID: lobbyID,
 	});
 };
 
