@@ -16,7 +16,7 @@ export function selectActivePage() {
 }
 
 export function lobbyCheck() {
-	// als die al gejoined is joint hij dat weer anders naar
+	// als die al gejoind is rejoined hij inplaats van dat hij vraagt om een lobby
 
 	if (isInLobby !== null) {
 		socket.emit("rejoinLobby", { isInLobby });
